@@ -1,0 +1,37 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
+
+func evenNames(slice []string) string {
+	var evenSlice []string
+	for _, word := range slice {
+		if countEvenChars(word) {
+			evenSlice = append(evenSlice, word)
+		}
+	}
+	return strings.Join(evenSlice, " ")
+}
+
+func countEvenChars(word string) bool {
+	count := 0
+	for _, char := range word {
+		if char != ' ' {
+			count++
+		}
+	}
+	return count%2 == 0
+}
+
+func main() {
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	x := scanner.Text()
+	slice := strings.Split(x, " ")
+	result := evenNames(slice)
+	fmt.Println(result)
+}

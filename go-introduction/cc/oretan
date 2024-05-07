@@ -1,0 +1,26 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
+
+func evenNames(slice []string) []string {
+	//Tulis kode disini
+	var slice []string
+	if slice%2 == 0 {
+		fmt.Println(slice)
+	}
+
+}
+
+func main() {
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	x := scanner.Text()
+	slice := strings.Split(x, " ")
+	names := evenNames(slice)
+	fmt.Println(names)
+}

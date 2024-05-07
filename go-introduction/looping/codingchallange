@@ -1,0 +1,15 @@
+package main
+
+import "fmt"
+
+func main() {
+	// Tulis kode disini
+
+	var a int
+	fmt.Scanln(&a)
+
+	for i := a; i >= 1; i-- {
+		fmt.Println(i, "I will become a go developer")
+	}
+
+}

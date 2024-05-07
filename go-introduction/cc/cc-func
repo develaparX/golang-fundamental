@@ -1,0 +1,36 @@
+package main
+
+import (
+	"fmt"
+)
+
+func potongBambu(bambu []int, potongan int) {
+	for i := 1; i <= potongan; i++ {
+		fmt.Printf("Potongan ke- %d\n", i)
+		for j := range bambu {
+			if bambu[j] > 0 {
+				bambu[j]--
+			}
+			fmt.Println(bambu[j])
+		}
+	}
+}
+
+func main() {
+	var banyakBambu int
+	fmt.Print("Masukan banyak bamboo: ")
+	fmt.Scanln(&banyakBambu)
+
+	bambu := make([]int, banyakBambu)
+
+	for i := 0; i < banyakBambu; i++ {
+		fmt.Printf("sekat bamboo ke-%d : ", i+1)
+		fmt.Scanln(&bambu[i])
+	}
+
+	var potongan int
+	fmt.Print("Berapa kali potong? ")
+	fmt.Scanln(&potongan)
+
+	potongBambu(bambu, potongan)
+}

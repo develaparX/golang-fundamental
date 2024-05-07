@@ -1,0 +1,49 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
+
+func main() {
+	reader := bufio.NewReader(os.Stdin)
+
+	// // Meminta input kapasitas array
+	// fmt.Print("Masukkan kapasitas array: ")
+	kapasitasStr, _ := reader.ReadString('\n')
+	kapasitasStr = strings.TrimSpace(kapasitasStr)
+	kapasitas, _ := strconv.Atoi(kapasitasStr)
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// 	return
+	// }
+
+	// Membuat array dengan kapasitas yang dimasukkan
+	array := make([]int, kapasitas)
+
+	// // Meminta input elemen-elemen array
+	// fmt.Print("Masukkan elemen-elemen array (dipisahkan dengan spasi): ")
+	inputStr, _ := reader.ReadString('\n')
+	inputStr = strings.TrimSpace(inputStr)
+	elements := strings.Split(inputStr, " ")
+
+	// Memasukkan elemen-elemen array ke dalam array
+	for i, el := range elements {
+		num, err := strconv.Atoi(el)
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
+		array[i] = num
+	}
+
+	// Mencetak array yang dimasukkan
+	for _, number := range array {
+		if number%2 == 0 { // yang tercetak akan bilangan genap
+			fmt.Println(number)
+		}
+	}
+}
