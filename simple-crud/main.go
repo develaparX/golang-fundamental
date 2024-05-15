@@ -16,27 +16,53 @@ type Book struct {
 	Pages       int
 }
 
-var books []Book
+var books []Book // menampung data buku
 
 var fileName string = "data.csv" // ingin menimpan data dalam bentuk csv
 
 func main() {
-	// createFile(fileName) //membuat file data.csv
+
+	//membuat file data.csv
+	// Panggil fungsi createFile
+	// createFile(fileName)
+	// err := createFile(fileName)
+	// if err != nil {
+	// 	fmt.Println("Gagal membuat file:", err)
+	// 	return
+	// }
+
 	// addNewBook() // menambahkan buku baru
+
+	//melihat semua buku
 	loadDataFromCSV(fileName)
 	viewAllBook()
 
+	updateBookById(1)
+
 }
 
-func createFile(fileName string) {
-	file, err := os.Create(fileName)
-	if err != nil {
-		fmt.Println(err)
-		return
+func createFile(fileName string) error {
+	// Memeriksa apakah file sudah ada
+	if _, err := os.Stat(fileName); err == nil {
+		// Jika file sudah ada, langsung kembalikan nil
+		fmt.Println("File sudah ada:", fileName)
+		return nil
+	} else if os.IsNotExist(err) {
+		// Jika file belum ada, buat file
+		file, err := os.Create(fileName)
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+		defer file.Close()
+
+		fmt.Println("File", fileName, "berhasil dibuat")
+		return nil
 	} else {
-		fmt.Println("file", fileName, "berhasil dibuat")
+		// Jika terjadi kesalahan selain file tidak ada
+		fmt.Println(err)
+		return err
 	}
-	defer file.Close()
 }
 
 func addNewBook() error { //menambah buku baru
@@ -148,7 +174,7 @@ func viewAllBook() error { //melihat semua buku
 	return nil
 }
 
-func findBookById(id int) (Book, error) {
+func findBookById(id int) (Book, error) { //pengecekan apakah id sudah ada apa belum
 	for _, book := range books {
 		if book.Id == id {
 			return book, nil
@@ -156,4 +182,42 @@ func findBookById(id int) (Book, error) {
 		}
 	}
 	return Book{}, fmt.Errorf("id : %d not found", id)
+}
+
+func updateBookById(id int) error {
+	for i, book := range books {
+		if book.Id == id {
+			fmt.Println("Book found, enter new details:")
+			var updatedBook Book
+
+			scanner := bufio.NewScanner(os.Stdin)
+
+			fmt.Print("New Book Title :")
+			scanner.Scan()
+			updatedBook.Title = scanner.Text()
+
+			fmt.Print("New Book Author :")
+			scanner.Scan()
+			updatedBook.Author = scanner.Text()
+
+			fmt.Print("New Release Year :")
+			scanner.Scan()
+			updatedBook.ReleaseYear = scanner.Text()
+
+			fmt.Print("New Book pages :")
+			scanner.Scan()
+			updatedBook.Pages, _ = strconv.Atoi(scanner.Text())
+
+			books[i] = updatedBook
+
+			err := saveDataToCSV(fileName)
+			if err != nil {
+				return err
+			}
+
+			fmt.Println("Book updated successfully")
+			return nil
+		}
+	}
+	return fmt.Errorf("Book with id : %d not found", id)
 }
